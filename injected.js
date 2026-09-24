@@ -291,6 +291,13 @@ window.__flowkit_tab_api_handler = async ({ detail }) => {
     const text = await resp.text();
     try {
       data = JSON.parse(text);
+      if (typeof data === 'object' && data !== null && !Array.isArray(data)) {
+        data._debug_flowkit = {
+          activeProjId: activeProjId || 'NONE',
+          url: url,
+          bodyStr: typeof finalBody === 'string' ? finalBody : JSON.stringify(finalBody)
+        };
+      }
     } catch {
       data = text;
     }
